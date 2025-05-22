@@ -1,6 +1,59 @@
 const passwordInput = document.getElementById('password');
 const generateBtn = document.getElementById('generate-btn');
 const copyBtn = document.getElementById('copy-btn');
+const passwordHistoryContainer = document.getElementById('password-history');
+
+
+function loadPasswordHistory() {
+    const history = JSON.parse(localStorage.getItem('passwordHistory')) || [];
+    renderPasswordHistory(history);
+    return history;
+}
+
+function savePasswordToHistory(password) {
+    const history = loadPasswordHistory();
+    
+    history.unshift(password);
+    
+    const updatedHistory = history.slice(0, 5);
+    
+    localStorage.setItem('passwordHistory', JSON.stringify(updatedHistory));
+    
+    renderPasswordHistory(updatedHistory);
+}
+
+function renderPasswordHistory(history) {
+    passwordHistoryContainer.innerHTML = '';
+    
+    if (history.length === 0) {
+        passwordHistoryContainer.innerHTML = '<p>No password history yet</p>';
+        return;
+    }
+    
+    const historyList = document.createElement('ul');
+    historyList.className = 'history-list';
+    
+    history.forEach(password => {
+        const listItem = document.createElement('li');
+        
+        const passwordText = document.createElement('span');
+        passwordText.textContent = password;
+        passwordText.className = 'history-password';
+        
+        const useButton = document.createElement('button');
+        useButton.textContent = 'Use';
+        useButton.className = 'use-btn';
+        useButton.addEventListener('click', () => {
+            passwordInput.value = password;
+        });
+        
+        listItem.appendChild(passwordText);
+        listItem.appendChild(useButton);
+        historyList.appendChild(listItem);
+    });
+    
+    passwordHistoryContainer.appendChild(historyList);
+}
 
 function generatePassword(length = 12) {
     const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -37,11 +90,12 @@ function shuffleString(string) {
 generateBtn.addEventListener('click', () => {
     const password = generatePassword();
     passwordInput.value = password;
+    savePasswordToHistory(password);
 });
 
 copyBtn.addEventListener('click', () => {
     passwordInput.select();
-    passwordInput.setSelectionRange(0, 99999); // For mobile devices
+    passwordInput.setSelectionRange(0, 99999);
     
     navigator.clipboard.writeText(passwordInput.value)
         .then(() => {
@@ -59,4 +113,5 @@ copyBtn.addEventListener('click', () => {
 window.addEventListener('load', () => {
     const password = generatePassword();
     passwordInput.value = password;
+    loadPasswordHistory();
 });
