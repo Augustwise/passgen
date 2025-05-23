@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,9 +12,19 @@
         <h1>Password Generator</h1>
         <div class="password-container">
             <input type="text" id="password" placeholder="Your password will appear here" readonly>
-            <button id="copy-btn" title="Copy to clipboard">Copy</button>
+            <button id="copy-btn" title="Copy to clipboard"><i class="fas fa-copy"></i></button>
         </div>
         <button id="generate-btn">Generate Password</button>
+        
+        <div class="options-container">
+            <input type="checkbox" id="exclude-similar-chars" name="exclude-similar-chars">
+            <label for="exclude-similar-chars">Exclude similar characters (e.g., I, l, 1, O, 0)</label>
+        </div>
+
+        <div class="history-section">
+            <h2>Password History</h2>
+            <div id="password-history"></div>
+        </div>
     </div>
     <script src="app.js"></script>
 </body>
