@@ -2,6 +2,7 @@ const passwordInput = document.getElementById('password');
 const generateBtn = document.getElementById('generate-btn');
 const copyBtn = document.getElementById('copy-btn');
 const passwordHistoryContainer = document.getElementById('password-history');
+const excludeSimilarCharsCheckbox = document.getElementById('exclude-similar-chars');
 
 
 function loadPasswordHistory() {
@@ -13,7 +14,11 @@ function loadPasswordHistory() {
 function savePasswordToHistory(password) {
     const history = loadPasswordHistory();
     
-    history.unshift(password);
+    const entry = {
+        password,
+        time: new Date().toISOString()
+    };
+    history.unshift(entry);
     
     const updatedHistory = history.slice(0, 5);
     
@@ -33,21 +38,31 @@ function renderPasswordHistory(history) {
     const historyList = document.createElement('ul');
     historyList.className = 'history-list';
     
-    history.forEach(password => {
+    history.forEach(entry => {
         const listItem = document.createElement('li');
         
+        const entryDiv = document.createElement('div');
+        entryDiv.className = 'history-entry';
+        
+        const timeText = document.createElement('span');
+        timeText.textContent = entry.time ? formatTime(entry.time) : '';
+        timeText.className = 'history-time';
+        
         const passwordText = document.createElement('span');
-        passwordText.textContent = password;
+        passwordText.textContent = entry.password || entry;
         passwordText.className = 'history-password';
+        
+        entryDiv.appendChild(timeText);
+        entryDiv.appendChild(passwordText);
         
         const useButton = document.createElement('button');
         useButton.textContent = 'Use';
         useButton.className = 'use-btn';
         useButton.addEventListener('click', () => {
-            passwordInput.value = password;
+            passwordInput.value = entry.password || entry;
         });
         
-        listItem.appendChild(passwordText);
+        listItem.appendChild(entryDiv);
         listItem.appendChild(useButton);
         historyList.appendChild(listItem);
     });
@@ -55,11 +70,22 @@ function renderPasswordHistory(history) {
     passwordHistoryContainer.appendChild(historyList);
 }
 
+function formatTime(isoString) {
+    const date = new Date(isoString);
+    return date.toLocaleString();
+}
+
 function generatePassword(length = 12) {
-    const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
-    const numbers = '0123456789';
-    const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+    let upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let lowerCase = 'abcdefghijklmnopqrstuvwxyz';
+    let numbers = '0123456789';
+    let symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+    if (excludeSimilarCharsCheckbox.checked) {
+        upperCase = upperCase.replace(/[IL]/g, '');
+        lowerCase = lowerCase.replace(/[lo]/g, '');
+        numbers = numbers.replace(/[01]/g, '');
+    }
     
     const allChars = upperCase + lowerCase + numbers + symbols;
     
@@ -99,10 +125,11 @@ copyBtn.addEventListener('click', () => {
     
     navigator.clipboard.writeText(passwordInput.value)
         .then(() => {
-            copyBtn.textContent = 'Copied!';
+            const originalIcon = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="fas fa-check"></i>';
             
             setTimeout(() => {
-                copyBtn.textContent = 'Copy';
+                copyBtn.innerHTML = originalIcon;
             }, 2000);
         })
         .catch(err => {
