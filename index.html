@@ -8,24 +8,102 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Password Generator</h1>
-        <div class="password-container">
-            <input type="text" id="password" placeholder="Your password will appear here" readonly>
-            <button id="copy-btn" title="Copy to clipboard"><i class="fas fa-copy"></i></button>
-        </div>
-        <button id="generate-btn">Generate Password</button>
-        
-        <div class="options-container">
-            <input type="checkbox" id="exclude-similar-chars" name="exclude-similar-chars">
-            <label for="exclude-similar-chars">Exclude similar characters (e.g., I, l, 1, O, 0)</label>
+    <div class="app-container">
+        <div class="container">
+            <h1>Password Generator</h1>
+            <div class="password-container">
+                <input type="text" id="password" placeholder="Your password will appear here" readonly>
+                <button id="copy-btn" title="Copy to clipboard"><i class="fas fa-copy"></i></button>
+                <button id="qr-btn" title="Show QR code"><i class="fas fa-qrcode"></i></button>
+            </div>
+            <button id="generate-btn">Generate Password</button>
+            
+            <div class="options-container">
+                <div class="option-row">
+                    <input type="checkbox" id="include-uppercase" name="include-uppercase" checked>
+                    <label for="include-uppercase">Include capital letters (A-Z)</label>
+                </div>
+                <div class="option-row">
+                    <input type="checkbox" id="include-lowercase" name="include-lowercase" checked>
+                    <label for="include-lowercase">Include small letters (a-z)</label>
+                </div>
+                <div class="option-row">
+                    <input type="checkbox" id="include-numbers" name="include-numbers" checked>
+                    <label for="include-numbers">Include numbers (0-9)</label>
+                </div>
+                <div class="option-row">
+                    <input type="checkbox" id="include-symbols" name="include-symbols" checked>
+                    <label for="include-symbols">Include special characters (!@#$%^&*)</label>
+                </div>
+                <div class="option-row">
+                    <input type="checkbox" id="exclude-similar-chars" name="exclude-similar-chars">
+                    <label for="exclude-similar-chars">Exclude similar characters (e.g., I, l, 1, O, 0)</label>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <h2>Password History</h2>
+                <div id="password-history"></div>
+            </div>
         </div>
 
-        <div class="history-section">
-            <h2>Password History</h2>
-            <div id="password-history"></div>
+        <div class="export-container">
+            <h1>Export Passwords</h1>
+            <div class="export-options">
+                <div class="form-group">
+                    <label for="password-count">Number of passwords:</label>
+                    <input type="number" id="password-count" min="1" max="10000" value="10">
+                </div>
+                <div class="form-group">
+                    <label for="password-length">Password length:</label>
+                    <input type="number" id="password-length" min="4" max="50" value="12">
+                </div>
+                
+                <div class="password-settings">
+                    <h3>Password Settings</h3>
+                    <div class="option-row">
+                        <input type="checkbox" id="export-uppercase" name="export-uppercase" checked>
+                        <label for="export-uppercase">Include capital letters (A-Z)</label>
+                    </div>
+                    <div class="option-row">
+                        <input type="checkbox" id="export-lowercase" name="export-lowercase" checked>
+                        <label for="export-lowercase">Include small letters (a-z)</label>
+                    </div>
+                    <div class="option-row">
+                        <input type="checkbox" id="export-numbers" name="export-numbers" checked>
+                        <label for="export-numbers">Include numbers (0-9)</label>
+                    </div>
+                    <div class="option-row">
+                        <input type="checkbox" id="export-symbols" name="export-symbols" checked>
+                        <label for="export-symbols">Include special characters (!@#$%^&*)</label>
+                    </div>
+                    <div class="option-row">
+                        <input type="checkbox" id="export-exclude-similar" name="export-exclude-similar">
+                        <label for="export-exclude-similar">Exclude similar characters</label>
+                    </div>
+                </div>
+                
+                <div class="export-format">
+                    <h3>Export Format</h3>
+                    <div class="format-options">
+                        <button id="export-txt" class="export-btn"><i class="fas fa-file-alt"></i> TXT</button>
+                        <button id="export-csv" class="export-btn"><i class="fas fa-file-csv"></i> CSV</button>
+                        <button id="export-json" class="export-btn"><i class="fas fa-file-code"></i> JSON</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div id="qr-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Scan QR Code for Password</h2>
+            <div id="qrcode"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
