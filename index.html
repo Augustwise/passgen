@@ -1,109 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Password Generator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem("theme") || "light";
+          if (theme === "dark") {
+            document.documentElement.setAttribute("data-theme", "dark");
+          } else {
+            document.documentElement.setAttribute("data-theme", "light");
+          }
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <button
+      id="theme-toggle"
+      aria-label="Toggle theme"
+      title="Toggle theme"
+      class="theme-toggle"
+    >
+      <i class="fas fa-moon"></i>
+    </button>
     <div class="app-container">
-        <div class="container">
-            <h1>Password Generator</h1>
-            <div class="password-container">
-                <input type="text" id="password" placeholder="Your password will appear here" readonly>
-                <button id="copy-btn" title="Copy to clipboard"><i class="fas fa-copy"></i></button>
-                <button id="qr-btn" title="Show QR code"><i class="fas fa-qrcode"></i></button>
-            </div>
-            <button id="generate-btn">Generate Password</button>
-            
-            <div class="options-container">
-                <div class="option-row">
-                    <input type="checkbox" id="include-uppercase" name="include-uppercase" checked>
-                    <label for="include-uppercase">Include capital letters (A-Z)</label>
-                </div>
-                <div class="option-row">
-                    <input type="checkbox" id="include-lowercase" name="include-lowercase" checked>
-                    <label for="include-lowercase">Include small letters (a-z)</label>
-                </div>
-                <div class="option-row">
-                    <input type="checkbox" id="include-numbers" name="include-numbers" checked>
-                    <label for="include-numbers">Include numbers (0-9)</label>
-                </div>
-                <div class="option-row">
-                    <input type="checkbox" id="include-symbols" name="include-symbols" checked>
-                    <label for="include-symbols">Include special characters (!@#$%^&*)</label>
-                </div>
-                <div class="option-row">
-                    <input type="checkbox" id="exclude-similar-chars" name="exclude-similar-chars">
-                    <label for="exclude-similar-chars">Exclude similar characters (e.g., I, l, 1, O, 0)</label>
-                </div>
-            </div>
+      <div class="container">
+        <h1>Password Generator</h1>
+        <div class="password-container">
+          <input
+            type="text"
+            id="password"
+            placeholder="Your password will appear here"
+            readonly
+          />
+          <button id="copy-btn" title="Copy to clipboard">
+            <i class="fas fa-copy"></i>
+          </button>
+          <button id="qr-btn" title="Show QR code">
+            <i class="fas fa-qrcode"></i>
+          </button>
+        </div>
+        <button id="generate-btn">Generate Password</button>
 
-            <div class="history-section">
-                <h2>Password History</h2>
-                <div id="password-history"></div>
-            </div>
+        <div class="options-container">
+          <div class="option-row">
+            <input
+              type="checkbox"
+              id="include-uppercase"
+              name="include-uppercase"
+              checked
+            />
+            <label for="include-uppercase">Include capital letters (A-Z)</label>
+          </div>
+          <div class="option-row">
+            <input
+              type="checkbox"
+              id="include-lowercase"
+              name="include-lowercase"
+              checked
+            />
+            <label for="include-lowercase">Include small letters (a-z)</label>
+          </div>
+          <div class="option-row">
+            <input
+              type="checkbox"
+              id="include-numbers"
+              name="include-numbers"
+              checked
+            />
+            <label for="include-numbers">Include numbers (0-9)</label>
+          </div>
+          <div class="option-row">
+            <input
+              type="checkbox"
+              id="include-symbols"
+              name="include-symbols"
+              checked
+            />
+            <label for="include-symbols"
+              >Include special characters (!@#$%^&*)</label
+            >
+          </div>
+          <div class="option-row">
+            <input
+              type="checkbox"
+              id="exclude-similar-chars"
+              name="exclude-similar-chars"
+            />
+            <label for="exclude-similar-chars"
+              >Exclude similar characters (e.g., I, l, 1, O, 0)</label
+            >
+          </div>
         </div>
 
-        <div class="export-container">
-            <h1>Export Passwords</h1>
-            <div class="export-options">
-                <div class="form-group">
-                    <label for="password-count">Number of passwords:</label>
-                    <input type="number" id="password-count" min="1" max="10000" value="10">
-                </div>
-                <div class="form-group">
-                    <label for="password-length">Password length:</label>
-                    <input type="number" id="password-length" min="4" max="50" value="12">
-                </div>
-                
-                <div class="password-settings">
-                    <h3>Password Settings</h3>
-                    <div class="option-row">
-                        <input type="checkbox" id="export-uppercase" name="export-uppercase" checked>
-                        <label for="export-uppercase">Include capital letters (A-Z)</label>
-                    </div>
-                    <div class="option-row">
-                        <input type="checkbox" id="export-lowercase" name="export-lowercase" checked>
-                        <label for="export-lowercase">Include small letters (a-z)</label>
-                    </div>
-                    <div class="option-row">
-                        <input type="checkbox" id="export-numbers" name="export-numbers" checked>
-                        <label for="export-numbers">Include numbers (0-9)</label>
-                    </div>
-                    <div class="option-row">
-                        <input type="checkbox" id="export-symbols" name="export-symbols" checked>
-                        <label for="export-symbols">Include special characters (!@#$%^&*)</label>
-                    </div>
-                    <div class="option-row">
-                        <input type="checkbox" id="export-exclude-similar" name="export-exclude-similar">
-                        <label for="export-exclude-similar">Exclude similar characters</label>
-                    </div>
-                </div>
-                
-                <div class="export-format">
-                    <h3>Export Format</h3>
-                    <div class="format-options">
-                        <button id="export-txt" class="export-btn"><i class="fas fa-file-alt"></i> TXT</button>
-                        <button id="export-csv" class="export-btn"><i class="fas fa-file-csv"></i> CSV</button>
-                        <button id="export-json" class="export-btn"><i class="fas fa-file-code"></i> JSON</button>
-                    </div>
-                </div>
-            </div>
+        <div class="history-section">
+          <h2>Password History</h2>
+          <button id="clear-history-btn" class="btn-danger">
+            Clear Password History
+          </button>
+          <div id="password-history"></div>
         </div>
+      </div>
+
+      <div class="export-container">
+        <h1>Export Passwords</h1>
+        <div class="export-options">
+          <div class="form-group">
+            <label for="password-count">Number of passwords:</label>
+            <input
+              type="number"
+              id="password-count"
+              min="1"
+              max="10000"
+              value="10"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password-length">Password length:</label>
+            <input
+              type="number"
+              id="password-length"
+              min="4"
+              max="50"
+              value="12"
+            />
+          </div>
+
+          <div class="password-settings">
+            <h3>Password Settings</h3>
+            <div class="option-row">
+              <input
+                type="checkbox"
+                id="export-uppercase"
+                name="export-uppercase"
+                checked
+              />
+              <label for="export-uppercase"
+                >Include capital letters (A-Z)</label
+              >
+            </div>
+            <div class="option-row">
+              <input
+                type="checkbox"
+                id="export-lowercase"
+                name="export-lowercase"
+                checked
+              />
+              <label for="export-lowercase">Include small letters (a-z)</label>
+            </div>
+            <div class="option-row">
+              <input
+                type="checkbox"
+                id="export-numbers"
+                name="export-numbers"
+                checked
+              />
+              <label for="export-numbers">Include numbers (0-9)</label>
+            </div>
+            <div class="option-row">
+              <input
+                type="checkbox"
+                id="export-symbols"
+                name="export-symbols"
+                checked
+              />
+              <label for="export-symbols"
+                >Include special characters (!@#$%^&*)</label
+              >
+            </div>
+            <div class="option-row">
+              <input
+                type="checkbox"
+                id="export-exclude-similar"
+                name="export-exclude-similar"
+              />
+              <label for="export-exclude-similar"
+                >Exclude similar characters</label
+              >
+            </div>
+          </div>
+
+          <div class="export-format">
+            <h3>Export Format</h3>
+            <div class="format-options">
+              <button id="export-txt" class="export-btn">
+                <i class="fas fa-file-alt"></i> TXT
+              </button>
+              <button id="export-csv" class="export-btn">
+                <i class="fas fa-file-csv"></i> CSV
+              </button>
+              <button id="export-json" class="export-btn">
+                <i class="fas fa-file-code"></i> JSON
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="qr-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Scan QR Code for Password</h2>
-            <div id="qrcode"></div>
-        </div>
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Scan QR Code for Password</h2>
+        <div id="qrcode"></div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
     <script src="app.js"></script>
-</body>
+  </body>
 </html>
