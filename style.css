@@ -66,7 +66,7 @@ body {
   transition-duration: var(--duration-theme-transition);
   transition-timing-function: ease;
 }
-  
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -76,28 +76,29 @@ body {
 }
 
 html[data-theme="dark"] body {
-  color: #ffffff;
+  color: var(--color-black);
 }
 
 html[data-theme="dark"] {
-  --color-bg-app: #000000;
-  --color-surface: #111111;
-  --color-surface-alt: #111111;
-  --color-border: #333333;
-  --color-border-subtle: #222222;
-  --color-border-strong: #666666;
-  --color-primary: #ffffff;
-  --color-primary-hover: #e6e6e6;
+  --color-bg-app: #121826;
+  --color-surface: #1c2135;
+  --color-surface-alt: #232842;
+  --color-border: #394056;
+  --color-border-subtle: #2a3045;
+  --color-border-strong: #565f7b;
+  --color-primary: #82aaff;
+  --color-primary-hover: #99c0ff;
   --color-on-primary: #000000;
-  --color-danger: #ffffff;
-  --color-danger-hover: #e6e6e6;
+  --color-danger: #ff757f;
+  --color-danger-hover: #e66a74;
   --color-on-danger: #000000;
-  --color-disabled: #444444;
-  --color-text-muted: #cccccc;
-  --color-icon-muted: #bbbbbb;
-  --color-black: #ffffff;
-  --color-animating-bg: #0a0a0a;
-  --color-number: red;
+  --color-disabled: #414863;
+  --color-text-muted: #8a93b4;
+  --color-icon-muted: #8a93b4;
+  --color-black: #c8d3f5;
+  --color-animating-bg: #1e2339;
+  --color-number: #ffc777;
+  --color-overlay: rgba(18, 24, 38, 0.4);
 }
 
 .app-container {
@@ -143,6 +144,8 @@ html[data-theme="dark"] {
   padding: var(--space-sm);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+  color: inherit;
 }
 
 .password-settings h3,
@@ -255,7 +258,7 @@ button {
   align-items: center;
   justify-content: center;
   background-color: var(--color-surface);
-  color: #000000;
+  color: var(--color-black);
   border: 1px solid var(--color-border);
   border-radius: 999px;
   z-index: 1000;
@@ -264,7 +267,6 @@ button {
 
 html[data-theme="dark"] .theme-toggle {
   background-color: var(--color-surface);
-  color: #ffffff;
   border-color: var(--color-border);
   box-shadow: none;
 }

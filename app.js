@@ -491,9 +491,7 @@ function setTheme(theme) {
 
 function updateThemeToggleIcon(theme) {
   if (!themeToggleBtn) return;
-  if (theme === "dark") {
-    themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
-  } else {
-    themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
-  }
+
+  const icon = theme === "dark" ? "fa-sun" : "fa-moon";
+  themeToggleBtn.innerHTML = `<i class="fas ${icon}"></i>`;
 }
