@@ -411,12 +411,18 @@ function generateQRCode(text) {
     return;
   }
 
-  const qr = qrcode(0, "M");
-  qr.addData(text);
-  qr.make();
+  const size = 200;
+  const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(
+    text
+  )}`;
 
-  const qrImg = qr.createImgTag(4);
-  qrcodeContainer.innerHTML = qrImg;
+  const img = document.createElement("img");
+  img.src = apiUrl;
+  img.alt = "Password QR Code";
+  img.width = size;
+  img.height = size;
+
+  qrcodeContainer.appendChild(img);
 }
 
 exportTxtBtn.addEventListener("click", () => exportPasswords("txt"));
@@ -457,7 +463,7 @@ window.addEventListener("load", () => {
   const password = generatePassword();
   animatePassword(password);
   loadPasswordHistory();
-  
+
   initializeThemeToggle();
 });
 
