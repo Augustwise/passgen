@@ -391,15 +391,25 @@ copyBtn.addEventListener("click", () => {
 qrBtn.addEventListener("click", () => {
   generateQRCode(passwordInput.value);
   qrModal.style.display = "block";
+  document.body.classList.add("modal-open");
 });
 
 closeModal.addEventListener("click", () => {
   qrModal.style.display = "none";
+  document.body.classList.remove("modal-open");
 });
 
 window.addEventListener("click", (event) => {
   if (event.target === qrModal) {
     qrModal.style.display = "none";
+    document.body.classList.remove("modal-open");
+  }
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && qrModal.style.display === "block") {
+    qrModal.style.display = "none";
+    document.body.classList.remove("modal-open");
   }
 });
 

@@ -58,6 +58,10 @@ body {
   color: var(--color-black);
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 *,
 *::before,
 *::after {
@@ -387,7 +391,6 @@ button:disabled:hover {
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
   background-color: var(--color-overlay);
 }
 
