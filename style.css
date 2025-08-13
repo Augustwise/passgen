@@ -245,11 +245,13 @@ button {
 }
 
 #copy-btn {
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-radius: var(--radius-sm) var(--radius-sm);
+  margin-right: 3px;
+  margin-left: 3px;
 }
 
 #qr-btn {
-  border-radius: 0;
+  border-radius: var(--radius-sm) var(--radius-sm);
 }
 
 .theme-toggle {
