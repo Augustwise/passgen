@@ -470,10 +470,7 @@ passwordLength.addEventListener("change", () => {
 });
 
 window.addEventListener("load", () => {
-  const password = generatePassword();
-  animatePassword(password);
   loadPasswordHistory();
-
   initializeThemeToggle();
 });
 
