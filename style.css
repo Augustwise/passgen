@@ -25,7 +25,7 @@
   --panel-width: 350px;
   --modal-max-width: 400px;
 
-  --duration-theme-transition: 320ms;
+  --duration-theme-transition: 400ms;
 
   --color-bg-app: #ececec;
   --color-surface: #ffffff;
@@ -393,6 +393,17 @@ button:disabled:hover {
   width: 100%;
   height: 100%;
   background-color: var(--color-overlay);
+  opacity: 0;
+  transition: opacity var(--duration-theme-transition) ease;
+}
+
+.modal.show {
+  display: block;
+  opacity: 1;
+}
+
+.modal.hide {
+  opacity: 0;
 }
 
 .modal-content {
@@ -404,6 +415,14 @@ button:disabled:hover {
   max-width: var(--modal-max-width);
   border-radius: var(--radius-md);
   text-align: center;
+  transform: scale(0.7) translateY(-20px);
+  transition: transform var(--duration-theme-transition) ease, opacity var(--duration-theme-transition) ease;
+  opacity: 0;
+}
+
+.modal.show .modal-content {
+  transform: scale(1) translateY(0);
+  opacity: 1;
 }
 
 .close-modal {

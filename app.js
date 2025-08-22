@@ -388,28 +388,43 @@ copyBtn.addEventListener("click", () => {
     });
 });
 
+function openModal() {
+  qrModal.style.display = "block";
+  qrModal.classList.remove("hide");
+  qrModal.offsetHeight;
+  qrModal.classList.add("show");
+  document.body.classList.add("modal-open");
+}
+
+function closeModalWithAnimation() {
+  qrModal.classList.remove("show");
+  qrModal.classList.add("hide");
+  document.body.classList.remove("modal-open");
+  
+  setTimeout(() => {
+    qrModal.style.display = "none";
+    qrModal.classList.remove("hide");
+  }, 400);
+}
+
 qrBtn.addEventListener("click", () => {
   generateQRCode(passwordInput.value);
-  qrModal.style.display = "block";
-  document.body.classList.add("modal-open");
+  openModal();
 });
 
 closeModal.addEventListener("click", () => {
-  qrModal.style.display = "none";
-  document.body.classList.remove("modal-open");
+  closeModalWithAnimation();
 });
 
 window.addEventListener("click", (event) => {
   if (event.target === qrModal) {
-    qrModal.style.display = "none";
-    document.body.classList.remove("modal-open");
+    closeModalWithAnimation();
   }
 });
 
 window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && qrModal.style.display === "block") {
-    qrModal.style.display = "none";
-    document.body.classList.remove("modal-open");
+  if (event.key === "Escape" && qrModal.classList.contains("show")) {
+    closeModalWithAnimation();
   }
 });
 
