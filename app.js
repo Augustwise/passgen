@@ -14,6 +14,8 @@ const qrModal = document.getElementById("qr-modal");
 const closeModal = document.querySelector(".close-modal");
 const qrcodeContainer = document.getElementById("qrcode");
 const clearHistoryBtn = document.getElementById("clear-history-btn");
+const faqBtn = document.getElementById("faq-btn");
+const faqModal = document.getElementById("faq-modal");
 
 const passwordCount = document.getElementById("password-count");
 const passwordLength = document.getElementById("password-length");
@@ -397,33 +399,58 @@ function openModal() {
 }
 
 function closeModalWithAnimation() {
-  qrModal.classList.remove("show");
-  qrModal.classList.add("hide");
+  if (qrModal.classList.contains("show")) {
+    qrModal.classList.remove("show");
+    qrModal.classList.add("hide");
+    setTimeout(() => {
+      qrModal.style.display = "none";
+      qrModal.classList.remove("hide");
+    }, 400);
+  }
+
+  if (faqModal.classList.contains("show")) {
+    faqModal.classList.remove("show");
+    faqModal.classList.add("hide");
+    setTimeout(() => {
+      faqModal.style.display = "none";
+      faqModal.classList.remove("hide");
+    }, 400);
+  }
   document.body.classList.remove("modal-open");
-  
-  setTimeout(() => {
-    qrModal.style.display = "none";
-    qrModal.classList.remove("hide");
-  }, 400);
 }
+
+function openFaqModal() {
+  faqModal.style.display = "block";
+  faqModal.classList.remove("hide");
+  faqModal.offsetHeight; // Trigger reflow
+  faqModal.classList.add("show");
+  document.body.classList.add("modal-open");
+}
+
+faqBtn.addEventListener("click", openFaqModal);
 
 qrBtn.addEventListener("click", () => {
   generateQRCode(passwordInput.value);
   openModal();
 });
 
-closeModal.addEventListener("click", () => {
-  closeModalWithAnimation();
+document.querySelectorAll(".close-modal").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    closeModalWithAnimation();
+  });
 });
 
 window.addEventListener("click", (event) => {
-  if (event.target === qrModal) {
+  if (event.target === qrModal || event.target === faqModal) {
     closeModalWithAnimation();
   }
 });
 
 window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && qrModal.classList.contains("show")) {
+  if (
+    event.key === "Escape" &&
+    (qrModal.classList.contains("show") || faqModal.classList.contains("show"))
+  ) {
     closeModalWithAnimation();
   }
 });
